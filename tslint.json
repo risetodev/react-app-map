@@ -1,0 +1,24 @@
+{
+  "defaultSeverity": "error",
+  "extends": ["tslint-react", "tslint-config-prettier"],
+  "jsRules": {},
+  "rules": {
+    "radix": false,
+    "object-literal-sort-keys": false,
+    "variable-name": false,
+    "import-name": [
+      true,
+      {
+        "reactSvg": "ReactSvg",
+        "styledComponents": "styled",
+        "webpackMerge": "merge",
+        "webpackCommon": "commonConfig",
+        "cleanWebpackPlugin": "CleanWebpackPlugin",
+        "copyWebpackPlugin": "CopyWebpackPlugin",
+        "htmlWebpackPlugin": "HtmlWebpackPlugin",
+        "typescriptPluginStyledComponents": "createStyledComponentsTransformer"
+      }
+    ]
+  },
+  "rulesDirectory": []
+}
