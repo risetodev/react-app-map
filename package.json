@@ -1,5 +1,5 @@
 {
-  "name": "todo",
+  "name": "digis-test-intern",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.html",
@@ -9,10 +9,10 @@
     "generate-types-of-schema": "apollo-codegen generate ./src/**/gql.ts --schema ./dist/schema.json --target typescript --output ./src/types/operation-result-types.ts",
     "generate-types": "npm run generate-schema && npm run generate-types-of-schema"
   },
-  "author": "",
+  "author": "Ruslan Molchaniuk",
   "license": "ISC",
   "dependencies": {
-    "antd": "^3.20.1",
+    "antd": "^3.20.2",
     "css-loader": "^2.1.0",
     "file-loader": "^3.0.1",
     "formik": "^1.5.8",
