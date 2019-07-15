@@ -6,11 +6,11 @@ import {
   StyledH1,
   StyledH2
 } from "./styles";
-import { LayoutComponent } from "../layoutComponent";
+import { Layout } from "../layout";
 
 export const About: React.FC<{}> = () => {
   return (
-    <LayoutComponent>
+    <Layout>
       <AboutLayout>
         <StyledAbout>
           <StyledH1>About author:</StyledH1>
@@ -51,6 +51,6 @@ export const About: React.FC<{}> = () => {
           </ul>
         </StyledAbout>
       </AboutLayout>
-    </LayoutComponent>
+    </Layout>
   );
 };

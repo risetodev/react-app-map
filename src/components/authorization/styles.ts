@@ -9,9 +9,6 @@ export const Container = styled.div`
   align-items: center;
 `;
 
-export const Row = styled.div`
-  flex-direction: row;
-`;
 
 export const Auth = styled.div`
   width: 20em;

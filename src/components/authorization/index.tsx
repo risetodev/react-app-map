@@ -4,73 +4,83 @@ import { Button } from "antd";
 import {
   Auth,
   Container,
-  Row,
   StyledInput,
   StyledForm,
   StyledInputWrapper,
   StyledErrorMessage
 } from "./styles";
-import { AuthData } from "./types";
+import { IAuthData } from "./types";
 import * as Yup from "yup";
+import { useDispatch } from "react-redux";
+import { authenticationAction } from "../../Modules/authorization/actions";
+import { routes } from "../../Router/constans";
+import { push } from "connected-react-router";
 
 export const Authorization: React.FC<{}> = () => {
-  const onSubmit = (props: FormikProps<AuthData>) => () => props.handleSubmit();
+  const dispatch = useDispatch();
+
   return (
     <Container>
-      <Row>
-        <Auth>
-          <Formik
-            initialValues={{ login: "", password: "" }}
-            validationSchema={Yup.object({
-              login: Yup.string().required("Login is required! Login: admin"),
-              password: Yup.string()
-                .required("Password is required! Password: admin")
-                .min(5, "Minimum 5 symbols!")
-            })}
-            onSubmit={(values: AuthData) => {
-              console.log(values.login, values.password);
-            }}
-            render={(props: FormikProps<AuthData>) => (
-              <StyledForm>
-                <Field
-                  name="login"
-                  render={({ field }: FieldProps<AuthData>) => (
-                    <StyledInputWrapper>
-                      <StyledInput type="text" placeholder="Login" {...field} />
-                      <StyledErrorMessage>
-                        <ErrorMessage name="login" />
-                      </StyledErrorMessage>
-                    </StyledInputWrapper>
-                  )}
-                />
-                <Field
-                  name="password"
-                  render={({ field }: FieldProps<AuthData>) => (
-                    <StyledInputWrapper>
-                      <StyledInput
-                        type="password"
-                        placeholder="Password"
-                        {...field}
-                      />
-                      <StyledErrorMessage>
-                        <ErrorMessage name="password" />
-                      </StyledErrorMessage>
+      <Auth>
+        <Formik
+          initialValues={{ login: "", password: "" }}
+          validationSchema={Yup.object({
+            login: Yup.string()
+              .required("Login is required! Login: user")
+              .test("login", "Incorrect user!", value => value === "user"),
+            password: Yup.string()
+              .required("Password is required! Password: user")
+              .min(4, "Minimum 4 symbols!")
+              .test(
+                "password",
+                "Incorrect password!",
+                value => value === "user"
+              )
+          })}
+          onSubmit={(values: IAuthData) => {
+            dispatch(authenticationAction({ ...values, loggedIn: true }));
+            dispatch(push(routes.home));
+          }}
+          render={(props: FormikProps<IAuthData>) => (
+            <StyledForm>
+              <Field
+                name="login"
+                render={({ field }: FieldProps<IAuthData>) => (
+                  <StyledInputWrapper>
+                    <StyledInput type="text" placeholder="Login" {...field} />
+                    <StyledErrorMessage>
+                      <ErrorMessage name="login" />
+                    </StyledErrorMessage>
+                  </StyledInputWrapper>
+                )}
+              />
+              <Field
+                name="password"
+                render={({ field }: FieldProps<IAuthData>) => (
+                  <StyledInputWrapper>
+                    <StyledInput
+                      type="password"
+                      placeholder="Password"
+                      {...field}
+                    />
+                    <StyledErrorMessage>
                       <ErrorMessage name="password" />
-                    </StyledInputWrapper>
-                  )}
-                />
-                <Button
-                  disabled={!props.isValid || !props.touched}
-                  type="primary"
-                  onClick={onSubmit(props)}
-                >
-                  Sign in
-                </Button>
-              </StyledForm>
-            )}
-          />
-        </Auth>
-      </Row>
+                    </StyledErrorMessage>
+                    <ErrorMessage name="password" />
+                  </StyledInputWrapper>
+                )}
+              />
+              <Button
+                disabled={!props.isValid || !props.touched}
+                type="primary"
+                htmlType={"submit"}
+              >
+                Sign in
+              </Button>
+            </StyledForm>
+          )}
+        />
+      </Auth>
     </Container>
   );
 };

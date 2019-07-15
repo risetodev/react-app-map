@@ -1,7 +1,5 @@
 import styled from "styled-components";
 
-
-
 export const StyledAbout = styled.div`
   width: 50vw;
   padding: 3em;
@@ -13,14 +11,14 @@ export const Description = styled.div`
 
 export const StyledH1 = styled.h1`
   margin: 0;
-  font-size: 5em;
+  font-size: 3em;
   color: #0fd49f;
   font-style: italic;
 `;
 
 export const StyledH2 = styled.h2`
   margin: 0;
-  font-size: 3em;
+  font-size: 2em;
   color: #0fd49f;
   font-style: italic;
 `;
