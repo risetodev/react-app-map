@@ -22,6 +22,9 @@ export const Authorization: React.FC<{}> = () => {
   return (
     <Container>
       <Auth>
+        <span>Login: user</span>
+          <br/>
+        <span>Password: user</span>
         <Formik
           initialValues={{ login: "", password: "" }}
           validationSchema={Yup.object({

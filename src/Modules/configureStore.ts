@@ -7,7 +7,7 @@ import { getAuthentication } from "../utils/localStorage";
 
 const persistedState = {
   authorization: {
-    loggedIn: getAuthentication()
+    ...getAuthentication()
   }
 };
 

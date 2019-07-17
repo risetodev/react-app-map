@@ -5,17 +5,17 @@ import { routes } from "../../Router/constans";
 import { push } from "connected-react-router";
 import { IRootReducer } from "../../Modules/types";
 import { authenticationAction } from "../../Modules/authorization/actions";
+
 const AntdHeader = Layout.Header;
 
 const selector = (state: IRootReducer) => ({
-  router: state.router
+  router: state.router,
+  user: state.authorization.login
 });
 
 export const Header: React.FC<{}> = () => {
   const dispatch = useDispatch();
-  const { router } = useSelector(selector, shallowEqual);
-
-
+  const { router, user } = useSelector(selector, shallowEqual);
 
   const handleSelect = ({ key }) => dispatch(push(key));
 
@@ -47,7 +47,7 @@ export const Header: React.FC<{}> = () => {
           }}
           key={routes.login}
         >
-          Sign out
+          Sign out. Login: <i>{user}</i>
         </Menu.Item>
       </Menu>
     </AntdHeader>

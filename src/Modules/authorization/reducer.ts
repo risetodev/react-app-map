@@ -12,7 +12,7 @@ const INITIAL_STATE: IUser = {
 export const reducer = reducerWithInitialState<IUser>(INITIAL_STATE).case(
   authenticationAction,
   (state: IUser, payload) => {
-    setAuthentication(payload.loggedIn);
+    setAuthentication({ loggedIn: payload.loggedIn, login: payload.login });
     return { ...state, ...payload };
   }
 );

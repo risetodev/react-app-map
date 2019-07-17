@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const MapContainer = styled.div`
   display: flex;
+  margin-top: 1em;
 `;
 
 export const StyledMapWrapper = styled.div`
@@ -19,8 +20,10 @@ export const MapPlaces = styled.div`
   }
 `;
 
-export const StyledPanel = styled.div`
-  height: 100vh;
+export const FunctionsButtons = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1em;
 `;
 
 export const StyledSpan = styled.span`

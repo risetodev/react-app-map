@@ -1,4 +1,4 @@
-import { IPlace } from "./types";
+import { ILocation, IPlace } from "./types";
 import axios from "axios";
 
 export const GOOGLE_MAPS_API_KEY: string =
@@ -7,36 +7,20 @@ export const GOOGLE_MAPS_API_KEY: string =
 const GOOGLEAPIES: string =
   "https://maps.googleapis.com/maps/api/place/nearbysearch/";
 
-export const PLACES: string[] = [
-  "pharmacy",
-  "gas_station",
-  "school",
-  "restaurant"
-];
 
-let bufPlaceData: IPlace = {
-  id: null,
-  name: null,
-  location: { lat: null, lng: null },
-  vicinity: null
-};
-
-export const CITY = {
-  lat: 46.482525,
-  lng: 30.723309
-};
-
-export const getPlaces = (place: string) =>
+export const getPlaces = (place: string, center: ILocation) => {
+  //console.log(center);
   // Make a request for a user with a given ID
-  axios
+  return axios
     .get(
-      `${GOOGLEAPIES}json?location=${CITY.lat},${CITY.lng}&radius=10000&type=${place}&key=${GOOGLE_MAPS_API_KEY}`
+      `${GOOGLEAPIES}json?location=${center.lat},${center.lng}&radius=5000&type=${place}&key=${GOOGLE_MAPS_API_KEY}`
     )
     .then(response => {
       // handle success
-     // console.log(response.data.results);
+      //console.log(response.data.results);
       return response.data.results.map(item => ({
         id: item.id,
+        icon: item.icon,
         name: item.name,
         location: {
           lat: item.geometry.location.lat,
@@ -50,3 +34,4 @@ export const getPlaces = (place: string) =>
       console.log(error);
       return [];
     });
+};

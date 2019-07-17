@@ -1,7 +1,9 @@
 export const getAuthentication = () => {
   const value = JSON.parse(localStorage.getItem("loggedIn"));
-  return value ? value : false;
+  return value ? value : null;
 };
 
-export const setAuthentication = (value: boolean) =>
-  localStorage.setItem("loggedIn", JSON.stringify(value));
+export const setAuthentication = (value: {
+  loggedIn: boolean;
+  login: string;
+}) => localStorage.setItem("loggedIn", JSON.stringify(value));
