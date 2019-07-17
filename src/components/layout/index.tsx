@@ -6,7 +6,6 @@ import { Header } from "../header";
 export const Layout: React.FC<{}> = props => (
   <>
     <Header />
-
     <Container>
       <Row>{props.children}</Row>
     </Container>

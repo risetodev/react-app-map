@@ -1,6 +1,6 @@
 import React from "react";
 import { Field, FieldProps, Formik, FormikProps, ErrorMessage } from "formik";
-import { Button } from "antd";
+import { Button, Input } from "antd";
 import {
   Auth,
   Container,
@@ -23,7 +23,7 @@ export const Authorization: React.FC<{}> = () => {
     <Container>
       <Auth>
         <span>Login: user</span>
-          <br/>
+        <br />
         <span>Password: user</span>
         <Formik
           initialValues={{ login: "", password: "" }}
@@ -50,7 +50,7 @@ export const Authorization: React.FC<{}> = () => {
                 name="login"
                 render={({ field }: FieldProps<IAuthData>) => (
                   <StyledInputWrapper>
-                    <StyledInput type="text" placeholder="Login" {...field} />
+                    <Input type="text" placeholder="Login" {...field} />
                     <StyledErrorMessage>
                       <ErrorMessage name="login" />
                     </StyledErrorMessage>

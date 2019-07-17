@@ -30,27 +30,27 @@ const MapWrapper = withScriptjs(withGoogleMap(MapComponent));
 
 export const Map: React.FC<{}> = () => {
   //Geolocation
-  const [geolocation, setGeolocation] = useState<ILocation | any>();
-  const [isLocated, setIsLocatied] = useState<boolean>(false);
-  const [PHARMACY, setPHARMACY] = useState<IPlace | any>([]);
-  const [GAS_STATION, setGAS_STATION] = useState<IPlace | any>([]);
-  const [SCHOOL, setSCHOOL] = useState<IPlace | any>([]);
-  const [RESTAURANT, setRESTAURANT] = useState<IPlace | any>([]);
-  const [DATA_TO_SHOW, setDATA_TO_SHOW] = useState<IPlace | any>([]);
+  const [geolocation, setGeolocation] = useState();
+  const [isLocated, setIsLocated] = useState(false);
+  const [pharmacy, setPharmacy] = useState([]);
+  const [gasStation, setGasStation] = useState([]);
+  const [school, setSchool] = useState([]);
+  const [restaurant, setRestaurant] = useState([]);
+  const [dataToShow, setDataToShow] = useState([]);
   //Set of markers
-  const [MARKERS, setMARKERS] = useState<ILocation | any>([]);
+  const [markers, setMarkers] = useState<ILocation | any>([]);
   const [isMarkersVisible, setIsMarkersVisible] = useState<boolean>(true);
 
   const getCurrentLocationData = currentLocation => {
-    getPlaces("pharmacy", currentLocation).then(res => setPHARMACY(res));
-    getPlaces("gas_station", currentLocation).then(res => setGAS_STATION(res));
-    getPlaces("school", currentLocation).then(res => setSCHOOL(res));
-    getPlaces("restaurant", currentLocation).then(res => setRESTAURANT(res));
+    getPlaces("pharmacy", currentLocation).then(res => setPharmacy(res));
+    getPlaces("gas_station", currentLocation).then(res => setGasStation(res));
+    getPlaces("school", currentLocation).then(res => setSchool(res));
+    getPlaces("restaurant", currentLocation).then(res => setRestaurant(res));
   };
 
   const deleteMarker = marker => {
-    setMARKERS(
-      MARKERS.filter(
+    setMarkers(
+      markers.filter(
         item =>
           item.lat !== marker.latLng.lat() && item.lng !== marker.latLng.lng()
       )
@@ -59,8 +59,8 @@ export const Map: React.FC<{}> = () => {
 
   const setMarker = props => {
     isMarkersVisible &&
-      setMARKERS([
-        ...MARKERS,
+      setMarkers([
+        ...markers,
         {
           lat: props.latLng.lat(),
           lng: props.latLng.lng()
@@ -70,21 +70,21 @@ export const Map: React.FC<{}> = () => {
 
   const onSelectPanel = key => {
     if (key === undefined) {
-      setDATA_TO_SHOW([]);
+      setDataToShow([]);
       return;
     }
     switch (key.toLocaleString()) {
       case "pharmacy":
-        setDATA_TO_SHOW(PHARMACY);
+        setDataToShow(pharmacy);
         break;
       case "gas_station":
-        setDATA_TO_SHOW(GAS_STATION);
+        setDataToShow(gasStation);
         break;
       case "school":
-        setDATA_TO_SHOW(SCHOOL);
+        setDataToShow(school);
         break;
       case "restaurant":
-        setDATA_TO_SHOW(RESTAURANT);
+        setDataToShow(restaurant);
         break;
     }
   };
@@ -92,25 +92,25 @@ export const Map: React.FC<{}> = () => {
   const handelFunctionality = value => {
     switch (value.target.value) {
       case "Save":
-        if (MARKERS.length === 0) {
+        if (markers.length === 0) {
           alert("There are no markers to save!");
-        } else if (MARKERS.length > 0) {
+        } else if (markers.length > 0) {
           setIsMarkersVisible(false);
           alert("Successfully saved!");
         }
         break;
       case "Show":
         setIsMarkersVisible(true);
-        MARKERS.length === 0 && alert("There are no markers to show!");
+        markers.length === 0 && alert("There are no markers to show!");
         break;
       case "Delete":
-        if (MARKERS.length === 0) {
+        if (markers.length === 0) {
           alert("There are no markers to delete!");
         } else {
-          setMARKERS([]);
+          setMarkers([]);
           setGeolocation([]);
           alert("Successfully deleted!");
-          setDATA_TO_SHOW([]);
+          setDataToShow([]);
           setIsMarkersVisible(true);
         }
         break;
@@ -118,10 +118,10 @@ export const Map: React.FC<{}> = () => {
   };
 
   const getMyLocation = () => {
-    setIsLocatied(true);
+    setIsLocated(true);
     navigator.geolocation.getCurrentPosition(position => {
-      setMARKERS([
-        ...MARKERS,
+      setMarkers([
+        ...markers,
         {
           lat: position.coords.latitude,
           lng: position.coords.longitude
@@ -132,7 +132,7 @@ export const Map: React.FC<{}> = () => {
         lng: position.coords.longitude
       });
     });
-    setIsLocatied(false);
+    setIsLocated(false);
   };
 
   useEffect(() => {
@@ -150,8 +150,8 @@ export const Map: React.FC<{}> = () => {
       firstRender.current = false;
       return;
     }
-    getCurrentLocationData(MARKERS[0] || geolocation);
-  }, [geolocation, MARKERS]);
+    getCurrentLocationData(markers[0] || geolocation);
+  }, [geolocation, markers]);
 
   return (
     <Layout>
@@ -166,15 +166,15 @@ export const Map: React.FC<{}> = () => {
             defaultCenter={geolocation && geolocation}
           >
             {isMarkersVisible &&
-              MARKERS.map((item: ILocation, index) => (
+              markers.map((item: ILocation, index) => (
                 <Marker
                   key={index}
                   onClick={deleteMarker}
                   position={{ lat: item.lat, lng: item.lng }}
                 />
               ))}
-            {DATA_TO_SHOW.length !== 0 &&
-              DATA_TO_SHOW.map(item => (
+            {dataToShow.length !== 0 &&
+              dataToShow.map(item => (
                 <Marker
                   key={item.id}
                   position={{ lat: item.location.lat, lng: item.location.lng }}
@@ -212,10 +212,10 @@ export const Map: React.FC<{}> = () => {
               />
             </ButtonGroup>
           </FunctionsButtons>
-          {MARKERS.length === 1 && (
+          {markers.length === 1 && (
             <Collapse accordion={true} onChange={onSelectPanel}>
               <Panel header={"Pharmacies"} key="pharmacy">
-                {PHARMACY.map((item: IPlace, index) => (
+                {pharmacy.map((item: IPlace, index) => (
                   <StyledSpan key={index}>
                     <h4>
                       <i> {index + 1 + ") " + item.name}</i>
@@ -225,7 +225,7 @@ export const Map: React.FC<{}> = () => {
                 ))}
               </Panel>
               <Panel header={"Schools"} key="school">
-                {SCHOOL.map((item: IPlace, index) => (
+                {school.map((item: IPlace, index) => (
                   <StyledSpan key={index}>
                     <h4>
                       <i> {index + 1 + ") " + item.name}</i>
@@ -235,7 +235,7 @@ export const Map: React.FC<{}> = () => {
                 ))}
               </Panel>
               <Panel header={"Gas stations"} key="gas_station">
-                {GAS_STATION.map((item: IPlace, index) => (
+                {gasStation.map((item: IPlace, index) => (
                   <StyledSpan key={index}>
                     <h4>
                       <i> {index + 1 + ") " + item.name}</i>
@@ -245,7 +245,7 @@ export const Map: React.FC<{}> = () => {
                 ))}
               </Panel>
               <Panel header={"Restaurants"} key="restaurant">
-                {RESTAURANT.map((item: IPlace, index) => (
+                {restaurant.map((item: IPlace, index) => (
                   <StyledSpan key={index}>
                     <h4>
                       <i> {index + 1 + ") " + item.name}</i>

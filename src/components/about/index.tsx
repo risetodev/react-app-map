@@ -35,7 +35,7 @@ export const About: React.FC<{}> = () => {
             <li>Google Maps API</li>
             <li>
               <b>
-                <i>Must have:</i>
+                <i>Must have: </i>
                 <a
                   target={"_blank"}
                   href={
@@ -43,7 +43,7 @@ export const About: React.FC<{}> = () => {
                   }
                 >
                   Extension in Chrome
-                </a>{" "}
+                </a>
                 to avoid Cross Origin Errors: Moesif Orign & CORS Changer
               </b>
               <br />

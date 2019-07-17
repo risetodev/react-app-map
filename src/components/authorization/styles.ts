@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { Input, Button } from "antd";
 import { Form } from "formik";
 
 export const Container = styled.div`
@@ -9,13 +8,8 @@ export const Container = styled.div`
   align-items: center;
 `;
 
-
 export const Auth = styled.div`
   width: 20em;
-`;
-
-export const StyledInput = styled(Input)`
-  //margin-bottom: 1em;
 `;
 
 export const StyledForm = styled(Form)`
